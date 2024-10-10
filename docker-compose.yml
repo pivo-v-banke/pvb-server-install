@@ -1,12 +1,22 @@
-version: '3.8'
+version: '3.9'
 services:
   pvb-ovpn-master:
+    tty: true
     cap_add:
      - NET_ADMIN
     image: kylemanna/openvpn
-    container_name: openvpn
-    ports:
-     - "1194:1194/udp"
-    restart: always
+
     volumes:
-     - ./openvpn-data/conf:/etc/openvpn
+     - ./openvpn-data-master/conf:/etc/openvpn
+     - ./user_cfg:/user_cfg:rw
+    networks:
+      pvb-screed:
+        ipv4_address: 10.5.0.2
+
+networks:
+  pvb-screed:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.5.0.0/24
+          gateway: 10.5.0.1

@@ -1,0 +1,50 @@
+version: '3.9'
+services:
+  pvb-ovpn-master:
+    cap_add:
+     - NET_ADMIN
+    image: kylemanna/openvpn
+    container_name: openvpn
+    restart: always
+    volumes:
+     - ./openvpn-data-master/conf:/etc/openvpn
+     - ./user_cfg:/user_cfg:rw
+    networks:
+      pvb-screed:
+        ipv4_address: 10.5.0.2
+      pvb-world:
+        ipv4_address: 10.4.0.2
+
+  pvb-ovpn-slave:
+    tty: true
+    depends_on:
+      - pvb-ovpn-master
+    cap_add:
+      - NET_ADMIN
+    image: kylemanna/openvpn
+    restart: always
+    ports:
+      - "1195:1194/udp"
+    volumes:
+      - ./openvpn-data-slave/conf:/etc/openvpn
+      - ./user_cfg:/user_cfg:rw
+    networks:
+      pvb-screed:
+        ipv4_address: 10.5.0.3
+      pvb-world:
+        ipv4_address: 10.4.0.3
+
+networks:
+  pvb-screed:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.5.0.0/24
+          gateway: 10.5.0.1
+
+  pvb-world:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.4.0.0/24
+          gateway: 10.4.0.1
