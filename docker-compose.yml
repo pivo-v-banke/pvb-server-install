@@ -9,10 +9,22 @@ services:
       - "1195:1194/udp"
     volumes:
      - ./openvpn-data-master/conf:/etc/openvpn
-     - ./user_cfg:/user_cfg:rw
     networks:
       pvb-screed:
         ipv4_address: 10.5.0.2
+
+  pvb-firewall:
+    tty: true
+    cap_add:
+     - NET_ADMIN
+    build:
+      dockerfile: firewall.Dockerfile
+      context: .
+    volumes:
+     - ./data:/cheeseballs:rw
+    networks:
+      pvb-screed:
+        ipv4_address: 10.5.0.3
 
 networks:
   pvb-screed:
