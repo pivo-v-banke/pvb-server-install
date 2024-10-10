@@ -5,7 +5,8 @@ services:
     cap_add:
      - NET_ADMIN
     image: kylemanna/openvpn
-
+    ports:
+      - "1195:1194/udp"
     volumes:
      - ./openvpn-data-master/conf:/etc/openvpn
      - ./user_cfg:/user_cfg:rw
