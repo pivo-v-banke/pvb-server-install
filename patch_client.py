@@ -16,7 +16,7 @@ def main():
     real_ip = get_real_ip()
     with open(client, "r") as f:
         for line in f.readlines():
-            if line.startswith("remote"):
+            if line.startswith("remote "):
                 new_line = f"remote {real_ip} 1195"
             else:
                 new_line = line
