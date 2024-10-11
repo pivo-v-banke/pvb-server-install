@@ -22,6 +22,13 @@ def main():
                 new_line = line
             new_lines.append(new_line)
 
+    if os.path.exists("./shared/allowed_ips"):
+        new_lines.append("route-nopull")
+        with open("./shared/allowed_ips") as f:
+            allowed_ips = f.readlines()
+            for ip in allowed_ips:
+                new_lines.append(f"route {ip} 255.255.255.255")
+
     base_file_dir = os.path.dirname(client)
     base_filename = os.path.basename(client)
 
