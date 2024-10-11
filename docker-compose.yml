@@ -9,24 +9,13 @@ services:
       - "1195:1194/udp"
     volumes:
      - ./openvpn-data-master/conf:/etc/openvpn
+     - ./shared:/shared
+     - ./shared_scripts:./shared_scripts
     networks:
       pvb-screed:
         ipv4_address: 10.5.0.2
       pvb-bin:
         ipv4_address: 10.6.0.2
-
-  pvb-firewall:
-    tty: true
-    cap_add:
-     - NET_ADMIN
-    build:
-      dockerfile: firewall.Dockerfile
-      context: .
-    volumes:
-     - ./data:/cheeseballs:rw
-    networks:
-      pvb-screed:
-        ipv4_address: 10.5.0.3
 
 networks:
   pvb-screed:
@@ -35,10 +24,3 @@ networks:
       config:
         - subnet: 10.5.0.0/24
           gateway: 10.5.0.1
-
-  pvb-bin:
-    driver: bridge
-    ipam:
-      config:
-        - subnet: 10.6.0.0/24
-          gateway: 10.6.0.1

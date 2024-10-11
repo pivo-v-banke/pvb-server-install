@@ -7,6 +7,8 @@
 
 # User-specific stuff
 shared/*
+clients/*
+!clients/.gitkeep
 .idea/**/workspace.xml
 .idea/**/tasks.xml
 .idea/**/usage.statistics.xml

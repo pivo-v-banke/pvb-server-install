@@ -1,4 +1,4 @@
-file="../shared/allowed_ips"
+file="/shared/allowed_ips"
 
 # Read the file line by line
 iptables -F

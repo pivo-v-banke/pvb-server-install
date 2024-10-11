@@ -8,6 +8,7 @@ logger = logging.getLogger(__name__)
 
 DISCORD_MAIN = "https://raw.githubusercontent.com/GhostRooter0953/discord-voice-ips/refs/heads/master/custom-solutions/KindWarlock/discord-main-ips"
 DISCORD_VOICE = "https://raw.githubusercontent.com/GhostRooter0953/discord-voice-ips/refs/heads/master/discord-voice-ip-list"
+
 def get_discord_ips():
     main_ips_resp = requests.get(DISCORD_MAIN)
 
@@ -38,6 +39,9 @@ def get_discord_ips():
     return main_ips + voice_ips
 
 
+def get_ipinfo_ips():
+    return ["34.117.59.81"]
+
 def make_backup():
     if not os.path.exists("./shared/allowed_ips"):
         return
@@ -49,7 +53,7 @@ def make_backup():
 
 if __name__ == "__main__":
     make_backup()
-    new_ips = get_discord_ips()
+    new_ips = get_discord_ips() + get_ipinfo_ips()
     if not os.path.exists("shared"):
         os.mkdir("shared")
     with open("./shared/allowed_ips", "w") as f:

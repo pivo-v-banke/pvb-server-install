@@ -1,0 +1,1 @@
+docker compose exec pvb-ovpn-master /bin/bash /shared_scripts/set_policy.sh
