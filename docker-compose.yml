@@ -9,7 +9,7 @@ services:
       - "1195:1194/udp"
     volumes:
      - ./openvpn-data-master/conf:/etc/openvpn
-     - ./shared:/shared
+     - ./shared:/shared:rw
      - ./shared_scripts:./shared_scripts
     networks:
       pvb-screed:
