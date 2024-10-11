@@ -9,7 +9,7 @@ services:
     volumes:
      - ./openvpn-data-master/conf:/etc/openvpn
      - ./shared:/shared:rw
-     - ./shared_scripts:./shared_scripts
+     - ./shared_scripts:/shared_scripts
     networks:
       pvb-screed:
         ipv4_address: 10.5.0.2
