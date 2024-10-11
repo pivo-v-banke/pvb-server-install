@@ -18,7 +18,7 @@ def main():
         for line in f.readlines():
             if line.startswith("remote "):
                 new_line = f"remote {real_ip} 1195"
-            if line.startswith("redirect-gateway "):
+            elif line.startswith("redirect-gateway "):
                 continue
             else:
                 new_line = line
