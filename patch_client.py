@@ -27,6 +27,7 @@ def main():
         with open("./shared/allowed_ips") as f:
             allowed_ips = f.readlines()
             for ip in allowed_ips:
+                ip = ip.strip()
                 new_lines.append(f"route {ip} 255.255.255.255\n")
 
     base_file_dir = os.path.dirname(client)
