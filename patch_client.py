@@ -1,3 +1,4 @@
+import os.path
 import sys
 
 import requests
@@ -21,7 +22,10 @@ def main():
                 new_line = line
             new_lines.append(new_line)
 
-    with open(f"ds_{client}", "w") as f:
+    base_file_dir = os.path.dirname(client)
+    base_filename = os.path.basename(client)
+
+    with open(f"{base_file_dir}/ds_{base_filename}", "w") as f:
         f.writelines(new_lines)
 
 
