@@ -3,11 +3,20 @@ import os
 
 import requests
 import logging
+import ipaddress
 
 logger = logging.getLogger(__name__)
 
 DISCORD_MAIN = "https://raw.githubusercontent.com/GhostRooter0953/discord-voice-ips/refs/heads/master/custom-solutions/KindWarlock/discord-main-ips"
 DISCORD_VOICE = "https://raw.githubusercontent.com/GhostRooter0953/discord-voice-ips/refs/heads/master/discord-voice-ip-list"
+
+
+def is_ipv4(string):
+    try:
+        ipaddress.IPv4Network(string)
+        return True
+    except ValueError:
+        return False
 
 def get_discord_ips():
     main_ips_resp = requests.get(DISCORD_MAIN)
@@ -51,9 +60,18 @@ def make_backup():
             back_f.write(f.read())
 
 
+def clean_ips(ips) -> list[str]:
+    cleaned = []
+    for ip in ips:
+        if is_ipv4(ip):
+          cleaned.append(ip)
+    return cleaned
+
+
 if __name__ == "__main__":
     make_backup()
     new_ips = get_discord_ips() + get_ipinfo_ips()
+    new_ips = clean_ips(new_ips)
     if not os.path.exists("shared"):
         os.mkdir("shared")
     with open("./shared/allowed_ips", "w") as f:
