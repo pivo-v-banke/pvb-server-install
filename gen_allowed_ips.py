@@ -47,7 +47,7 @@ def make_backup():
         return
     ts = int(datetime.datetime.utcnow().timestamp())
     with open(f"./shared/allowed_ips_{ts}.back", "w") as back_f:
-        with open("allowed_ips") as f:
+        with open("./shared/allowed_ips") as f:
             back_f.write(f.read())
 
 
