@@ -18,6 +18,7 @@ def is_ipv4(string):
     except ValueError:
         return False
 
+
 def get_discord_ips():
     main_ips_resp = requests.get(DISCORD_MAIN)
 
@@ -51,6 +52,7 @@ def get_discord_ips():
 def get_ipinfo_ips():
     return ["34.117.59.81"]
 
+
 def make_backup():
     if not os.path.exists("./shared/allowed_ips"):
         return
@@ -68,13 +70,28 @@ def clean_ips(ips) -> list[str]:
     return cleaned
 
 
-if __name__ == "__main__":
+def to_subnetworks(ips: list[str]) -> list[str]:
+    subnetworks = set()
+    for ip in ips:
+        d1, d2, d3, _ = ip.split(".")
+        subnetworks.add(
+            f"{d1}.{d2}.{d3}.0/24"
+        )
+    return list(subnetworks)
+
+
+def main():
     make_backup()
     new_ips = get_discord_ips() + get_ipinfo_ips()
     new_ips = clean_ips(new_ips)
+    new_ips = to_subnetworks(new_ips)
     if not os.path.exists("shared"):
         os.mkdir("shared")
     with open("./shared/allowed_ips", "w") as f:
         for ip in new_ips:
             f.write(ip)
             f.write("\n")
+
+
+if __name__ == "__main__":
+    main()

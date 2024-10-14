@@ -1,3 +1,4 @@
+import ipaddress
 import os.path
 import sys
 
@@ -8,6 +9,11 @@ def get_real_ip():
     info_resp = requests.get("https://ipinfo.io")
     ip = info_resp.json()["ip"]
     return ip
+
+
+def cidr_to_netmask(cidr):
+    network = ipaddress.ip_network(cidr)
+    return str(network.network_address), str(network.netmask)
 
 
 def main():
@@ -28,9 +34,10 @@ def main():
         new_lines.append("route-nopull\n")
         with open("./shared/allowed_ips") as f:
             allowed_ips = f.readlines()
-            for ip in allowed_ips:
-                ip = ip.strip()
-                new_lines.append(f"route {ip} 255.255.255.255\n")
+            for cidr in allowed_ips:
+                cidr = cidr.strip()
+                ip, netmask = cidr_to_netmask(cidr)
+                new_lines.append(f"route {ip} {netmask}\n")
 
     base_file_dir = os.path.dirname(client)
     base_filename = os.path.basename(client)
